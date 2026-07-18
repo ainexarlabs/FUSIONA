@@ -1,0 +1,9 @@
+name = "fusiona"
+compatibility_date = "2025-01-01"
+
+# Serve the built Vite SPA as a Workers static site.
+# not_found_handling = "single-page-application" makes client-side
+# React Router routes (like /admin/login) fall back to index.html.
+[assets]
+directory = "./dist"
+not_found_handling = "single-page-application"
