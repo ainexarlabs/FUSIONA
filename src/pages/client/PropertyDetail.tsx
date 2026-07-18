@@ -1,11 +1,14 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ClientHeader } from '@/components/ClientHeader';
+import { Lightbox } from '@/components/Lightbox';
+import { PropertyMap } from '@/components/PropertyMap';
+import { PropertyQR } from '@/components/PropertyQR';
 import { ScheduleVisitSheet } from '@/components/ScheduleVisitSheet';
 import { useLocale } from '@/i18n';
 import { usePropertyDetail } from '@/hooks/usePropertyDetail';
 import { propertyPhotoUrl } from '@/lib/storage';
-import { buildWhatsAppLink } from '@/lib/whatsapp';
+import { buildWhatsAppLink, buildWhatsAppShareLink } from '@/lib/whatsapp';
 import { formatPrice, municipalityLabel } from '@/lib/format';
 
 export function PropertyDetail() {
@@ -15,6 +18,7 @@ export function PropertyDetail() {
   const [activeAreaId, setActiveAreaId] = useState<string | null>(null);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
   const [showVisitSheet, setShowVisitSheet] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const activeArea = useMemo(() => {
     if (!areas.length) return null;
@@ -22,6 +26,11 @@ export function PropertyDetail() {
   }, [areas, activeAreaId]);
 
   const activePhoto = activeArea?.photos[activePhotoIndex] ?? activeArea?.photos[0];
+
+  const publicUrl = useMemo(() => {
+    if (typeof window === 'undefined') return '';
+    return `${window.location.origin}/propiedades/${folio ?? ''}`;
+  }, [folio]);
 
   if (loading) {
     return (
@@ -52,6 +61,14 @@ export function PropertyDetail() {
     { value: property.construction_m2 ? `${property.construction_m2} m²` : null, label: t.detail.construction },
     { value: property.parking_spots, label: t.detail.parking },
   ].filter((f) => f.value !== null && f.value !== undefined);
+
+  const lightboxPhotos =
+    activeArea?.photos.map((photo) => ({
+      url: propertyPhotoUrl(photo.storage_path),
+      alt: activeArea.area_name,
+    })) ?? [];
+
+  const shareHref = buildWhatsAppShareLink(publicUrl, property.folio, property.title, t.detail.shareMessage);
 
   return (
     <div className="min-h-screen bg-fusiona-bg">
@@ -107,12 +124,17 @@ export function PropertyDetail() {
           )}
 
           <div className="flex flex-col gap-3">
-            <div className="photo-placeholder relative flex h-[280px] items-center justify-center rounded-2xl sm:h-[400px]">
+            <button
+              type="button"
+              onClick={() => activePhoto && setLightboxOpen(true)}
+              disabled={!activePhoto}
+              className="photo-placeholder relative flex h-[280px] items-center justify-center overflow-hidden rounded-2xl sm:h-[400px]"
+            >
               {activePhoto ? (
                 <img
                   src={propertyPhotoUrl(activePhoto.storage_path)}
                   alt={activeArea?.area_name}
-                  className="h-full w-full rounded-2xl object-cover"
+                  className="h-full w-full rounded-2xl object-cover transition-transform duration-300 hover:scale-[1.02]"
                 />
               ) : (
                 <span className="font-mono text-xs text-[#8a857e]">{t.card.photo}</span>
@@ -122,7 +144,7 @@ export function PropertyDetail() {
                   {activeArea.area_name} · {activePhotoIndex + 1} {t.detail.of} {activeArea.photos.length}
                 </span>
               )}
-            </div>
+            </button>
             {activeArea && activeArea.photos.length > 1 && (
               <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
                 {activeArea.photos.map((photo, idx) => (
@@ -134,15 +156,29 @@ export function PropertyDetail() {
                       idx === activePhotoIndex ? 'border-fusiona-red' : 'border-transparent'
                     }`}
                   >
-                    <img
-                      src={propertyPhotoUrl(photo.storage_path)}
-                      alt=""
-                      className="h-full w-full object-cover"
-                    />
+                    <img src={propertyPhotoUrl(photo.storage_path)} alt="" className="h-full w-full object-cover" />
                   </button>
                 ))}
               </div>
             )}
+
+            <div className="mt-4 flex flex-col gap-2">
+              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-neutral-400">
+                {t.detail.location}
+              </span>
+              {property.latitude != null && property.longitude != null ? (
+                <PropertyMap
+                  latitude={property.latitude}
+                  longitude={property.longitude}
+                  height={280}
+                  popupContent={`<strong>${property.folio}</strong><br>${property.title}`}
+                />
+              ) : (
+                <div className="rounded-2xl border border-dashed border-black/10 bg-white/60 p-6 text-center text-xs font-medium text-neutral-400">
+                  {t.detail.locationMissing}
+                </div>
+              )}
+            </div>
           </div>
 
           <aside className="flex flex-col gap-4">
@@ -176,16 +212,26 @@ export function PropertyDetail() {
               <button
                 type="button"
                 onClick={() => setShowVisitSheet(true)}
-                className="flex items-center justify-center rounded-xl border-[1.5px] border-fusiona-black py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-fusiona-black"
+                className="flex items-center justify-center rounded-xl border-[1.5px] border-fusiona-black py-3.5 text-[13px] font-extrabold uppercase tracking-wide text-fusiona-black transition-colors hover:bg-fusiona-black hover:text-white"
               >
                 {t.detail.scheduleVisit}
               </button>
+              <a
+                href={shareHref}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center rounded-xl border border-black/10 bg-white py-3 text-[12.5px] font-bold uppercase tracking-wide text-fusiona-black transition-colors hover:border-fusiona-black"
+              >
+                {t.detail.share}
+              </a>
             </div>
+
+            <PropertyQR url={publicUrl} folio={property.folio} />
           </aside>
         </div>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 flex gap-2.5 border-t border-black/[.07] bg-fusiona-bg/95 px-4 py-3 sm:hidden">
+      <div className="fixed inset-x-0 bottom-0 flex gap-2 border-t border-black/[.07] bg-fusiona-bg/95 px-4 py-3 sm:hidden">
         <a
           href={buildWhatsAppLink(property.folio, property.title)}
           target="_blank"
@@ -201,9 +247,31 @@ export function PropertyDetail() {
         >
           {t.detail.scheduleVisit}
         </button>
+        <a
+          href={shareHref}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={t.detail.share}
+          className="flex flex-none items-center justify-center rounded-xl border border-black/10 bg-white px-4 py-4 text-xs font-bold uppercase text-fusiona-black"
+        >
+          ⤴
+        </a>
       </div>
 
       {showVisitSheet && <ScheduleVisitSheet property={property} onClose={() => setShowVisitSheet(false)} />}
+
+      {lightboxOpen && activeArea && (
+        <Lightbox
+          photos={lightboxPhotos}
+          index={activePhotoIndex}
+          onClose={() => setLightboxOpen(false)}
+          onPrev={() =>
+            setActivePhotoIndex((idx) => (idx - 1 + lightboxPhotos.length) % lightboxPhotos.length)
+          }
+          onNext={() => setActivePhotoIndex((idx) => (idx + 1) % lightboxPhotos.length)}
+          caption={activeArea.area_name}
+        />
+      )}
     </div>
   );
 }

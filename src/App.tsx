@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { AuthProvider } from '@/components/AuthProvider';
 import { RequireAuth } from '@/components/RequireAuth';
+import { About } from '@/pages/client/About';
 import { Home } from '@/pages/client/Home';
 import { PropertyDetail } from '@/pages/client/PropertyDetail';
 import { Login } from '@/pages/admin/Login';
@@ -15,6 +16,7 @@ export default function App() {
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/nosotros" element={<About />} />
         <Route path="/propiedades/:folio" element={<PropertyDetail />} />
 
         <Route path="/admin/login" element={<Login />} />

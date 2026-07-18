@@ -3,7 +3,8 @@ import { useLocale } from '@/i18n';
 
 const PROPERTY_STYLES: Record<PropertyStatus, string> = {
   activa: 'bg-[#EAF6EC] text-[#217A3C]',
-  pausada: 'bg-[#FBF3E2] text-[#9A6B12]',
+  apartada: 'bg-[#FBF3E2] text-[#9A6B12]',
+  pausada: 'bg-[#EDEDED] text-[#666666]',
   vendida: 'bg-[#F6EAEA] text-[#A32B22]',
   rentada: 'bg-[#F6EAEA] text-[#A32B22]',
 };

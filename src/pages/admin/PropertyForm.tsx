@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { PropertyMapPicker } from '@/components/PropertyMapPicker';
 import { useLocale } from '@/i18n';
 import { useMunicipalityCodes } from '@/hooks/useMunicipalityCodes';
 import { supabase, PROPERTY_PHOTOS_BUCKET } from '@/lib/supabaseClient';
@@ -46,6 +47,8 @@ export function PropertyForm() {
   const [folio, setFolio] = useState<string | null>(null);
   const [propertyId, setPropertyId] = useState<string | null>(null);
   const [areas, setAreas] = useState<AreaDraft[]>([]);
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -59,6 +62,8 @@ export function PropertyForm() {
 
       setPropertyId(property.id);
       setFolio(property.folio);
+      setLatitude(property.latitude);
+      setLongitude(property.longitude);
       setForm({
         municipality: property.municipality,
         modality: property.modality,
@@ -143,6 +148,8 @@ export function PropertyForm() {
         construction_m2: form.construction_m2 ? Number(form.construction_m2) : null,
         parking_spots: form.parking_spots ? Number(form.parking_spots) : null,
         neighborhood: form.neighborhood || null,
+        latitude,
+        longitude,
         status,
       };
 
@@ -343,6 +350,21 @@ export function PropertyForm() {
               placeholder={t.admin.form.description}
               rows={3}
               className="rounded-[9px] border border-black/10 px-3.5 py-3 text-sm font-medium text-neutral-700"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2.5 rounded-[14px] border border-black/[.07] bg-white p-4.5">
+            <span className="text-[11px] font-bold uppercase tracking-wide text-neutral-400">
+              {t.admin.form.location}
+            </span>
+            <p className="text-[11px] leading-relaxed text-neutral-500">{t.admin.form.locationHint}</p>
+            <PropertyMapPicker
+              latitude={latitude}
+              longitude={longitude}
+              onChange={({ latitude: lat, longitude: lng }) => {
+                setLatitude(lat);
+                setLongitude(lng);
+              }}
             />
           </div>
         </div>

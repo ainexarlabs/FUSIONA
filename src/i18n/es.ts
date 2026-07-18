@@ -5,7 +5,7 @@ export const es = {
     contact: 'Contacto',
   },
   home: {
-    heroTitle: 'Encuentra tu\npróximo hogar',
+    heroTitle: 'Encuentra tu\npróxima propiedad',
     heroSubtitle: 'Toluca · Metepec · San Mateo Atenco · Calimaya',
     searchPlaceholder: 'Busca por ciudad, colonia o clave…',
     search: 'Buscar',
@@ -30,6 +30,11 @@ export const es = {
     whatsapp: 'WhatsApp',
     whatsappAsk: 'WhatsApp — pregunta por',
     scheduleVisit: 'Agendar visita',
+    share: 'Compartir por WhatsApp',
+    shareShort: 'Compartir',
+    qr: 'Código QR',
+    location: 'Ubicación',
+    locationMissing: 'Ubicación no disponible por ahora.',
     bedrooms: 'Recámaras',
     bathrooms: 'Baños',
     construction: 'Construcción',
@@ -37,6 +42,11 @@ export const es = {
     of: 'de',
     notFound: 'Propiedad no encontrada.',
     loading: 'Cargando propiedad…',
+    shareMessage: 'Mira esta propiedad de Fusiona Real Estate',
+    downloadQR: 'Descargar QR',
+    closeGallery: 'Cerrar galería',
+    previousPhoto: 'Foto anterior',
+    nextPhoto: 'Foto siguiente',
   },
   visit: {
     title: 'Agendar visita',
@@ -59,11 +69,20 @@ export const es = {
     privacyNote:
       'Tus documentos se almacenan de forma privada y segura, y solo se usan para validar tu identidad antes de la visita.',
   },
+  about: {
+    title: 'Nosotros',
+    intro:
+      'Fusiona Real Estate te acompaña en la compra, venta y renta de propiedades en Toluca, Metepec, San Mateo Atenco y Calimaya. Somos una inmobiliaria local con enfoque personalizado.',
+    placeholder:
+      'Estamos preparando la historia completa de Fusiona. Muy pronto conocerás cómo nació el equipo, quiénes somos y por qué nos gusta lo que hacemos.',
+    contactCta: 'Contáctanos por WhatsApp',
+  },
   status: {
     activa: 'Disponible',
     pausada: 'Pausada',
     vendida: 'Vendida',
     rentada: 'Rentada',
+    apartada: 'Apartada',
   },
   admin: {
     login: {
@@ -95,6 +114,10 @@ export const es = {
       status: 'Estatus',
       edit: 'Editar',
       remove: 'Baja',
+      delete: 'Eliminar',
+      changeStatus: 'Cambiar estatus',
+      confirmDelete:
+        '¿Eliminar esta propiedad? Esta acción también borra sus fotos y no se puede deshacer.',
       empty: 'Aún no hay propiedades registradas.',
       countLabel: 'propiedades',
       available: 'disponibles',
@@ -119,6 +142,12 @@ export const es = {
       saving: 'Guardando…',
       saved: 'Propiedad guardada correctamente.',
       saveError: 'No pudimos guardar la propiedad.',
+      location: 'Ubicación en el mapa',
+      locationHint:
+        'Haz click en el mapa para colocar la ubicación. Puedes arrastrar el pin para ajustarla.',
+      locationCleared: 'Sin ubicación',
+      clearLocation: 'Quitar pin',
+      searchAddressPlaceholder: 'Buscar dirección…',
     },
     municipalityCodes: {
       title: 'Claves por municipio',

@@ -1,6 +1,14 @@
 export type Modality = 'venta' | 'renta';
-export type PropertyStatus = 'activa' | 'pausada' | 'vendida' | 'rentada';
+export type PropertyStatus = 'activa' | 'apartada' | 'pausada' | 'vendida' | 'rentada';
 export type VisitStatus = 'pendiente' | 'confirmada' | 'cancelada';
+
+export const ALL_PROPERTY_STATUSES: PropertyStatus[] = [
+  'activa',
+  'apartada',
+  'pausada',
+  'vendida',
+  'rentada',
+];
 
 // Note: these use `type` (not `interface`) on purpose — the Database schema
 // below needs each Row/Insert/Update to structurally satisfy
@@ -29,6 +37,8 @@ export type PropertyRow = {
   construction_m2: number | null;
   parking_spots: number | null;
   neighborhood: string | null;
+  latitude: number | null;
+  longitude: number | null;
   status: PropertyStatus;
   created_at: string;
   updated_at: string;

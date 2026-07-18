@@ -7,7 +7,7 @@ export const en: Dictionary = {
     contact: 'Contact',
   },
   home: {
-    heroTitle: 'Find your\nnext home',
+    heroTitle: 'Find your\nnext property',
     heroSubtitle: 'Toluca · Metepec · San Mateo Atenco · Calimaya',
     searchPlaceholder: 'Search by city, neighborhood or folio…',
     search: 'Search',
@@ -32,6 +32,11 @@ export const en: Dictionary = {
     whatsapp: 'WhatsApp',
     whatsappAsk: 'WhatsApp — ask about',
     scheduleVisit: 'Schedule a visit',
+    share: 'Share via WhatsApp',
+    shareShort: 'Share',
+    qr: 'QR code',
+    location: 'Location',
+    locationMissing: 'Location not available yet.',
     bedrooms: 'Bedrooms',
     bathrooms: 'Bathrooms',
     construction: 'Built area',
@@ -39,6 +44,11 @@ export const en: Dictionary = {
     of: 'of',
     notFound: 'Property not found.',
     loading: 'Loading property…',
+    shareMessage: 'Check out this property from Fusiona Real Estate',
+    downloadQR: 'Download QR',
+    closeGallery: 'Close gallery',
+    previousPhoto: 'Previous photo',
+    nextPhoto: 'Next photo',
   },
   visit: {
     title: 'Schedule a visit',
@@ -60,11 +70,20 @@ export const en: Dictionary = {
     privacyNote:
       'Your documents are stored privately and securely, and are only used to verify your identity before the visit.',
   },
+  about: {
+    title: 'About us',
+    intro:
+      'Fusiona Real Estate helps you buy, sell, and rent properties in Toluca, Metepec, San Mateo Atenco, and Calimaya. We are a local agency with a personal approach.',
+    placeholder:
+      "We're putting together the full Fusiona story. You'll soon get to know how the team came together, who we are, and why we love what we do.",
+    contactCta: 'Contact us on WhatsApp',
+  },
   status: {
     activa: 'Available',
     pausada: 'Paused',
     vendida: 'Sold',
     rentada: 'Rented',
+    apartada: 'Reserved',
   },
   admin: {
     login: {
@@ -96,6 +115,9 @@ export const en: Dictionary = {
       status: 'Status',
       edit: 'Edit',
       remove: 'Deactivate',
+      delete: 'Delete',
+      changeStatus: 'Change status',
+      confirmDelete: 'Delete this property? This will also remove its photos and cannot be undone.',
       empty: 'No properties registered yet.',
       countLabel: 'properties',
       available: 'available',
@@ -120,6 +142,11 @@ export const en: Dictionary = {
       saving: 'Saving…',
       saved: 'Property saved successfully.',
       saveError: "We couldn't save the property.",
+      location: 'Location on map',
+      locationHint: 'Click on the map to place the pin. You can drag it to fine-tune the location.',
+      locationCleared: 'No location',
+      clearLocation: 'Remove pin',
+      searchAddressPlaceholder: 'Search address…',
     },
     municipalityCodes: {
       title: 'Municipality codes',
